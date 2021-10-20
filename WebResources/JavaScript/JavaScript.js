@@ -33,5 +33,48 @@ Unicode.Account = {
                 }
             }
         }
-    }
+    },
+    CNJPOnchange: function (context) {
+        var formContext = context.getFormContext();
+        var cnpjField = "leg_cnpj";
+
+        var cnpj = formContext.getAttribute(cnjpField).getValue();
+        cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
+        cnpj = replace(/[\s.-]*/igm, '');
+        if (cnpj.length != 14) {
+            this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
+            formContext.getAttribute(cnpjField).setValue("");
+        }
+        else {
+
+            cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+            formContext.getAttribute(cnpjField).setValue(cnpj);
+
+        }
+
+
+    },
+    CEPOnchange: function (context) {
+        var formContext = context.getFormContext();
+        var cepField = "address1_postalcode";
+
+        var cep = formContext.getAttribute(cepField).getValue();
+        cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
+        cep = replace(/[\s.-]*/igm, '');
+        if (cep.length != 8) {
+            this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
+            formContext.getAttribute(cepField).setValue("");
+        }
+        else {
+
+            cep = cep.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+            formContext.getAttribute(cepField).setValue(cep);
+
+        }
+
+
+    },
+
 }
+
+
