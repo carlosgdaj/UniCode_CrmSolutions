@@ -13,7 +13,7 @@ Unicode.Account = {
         Platinum: 100000002
     },
     Attributos: {
-        leg_niveldocliente: " leg_niveldocliente",
+        leg_niveldocliente: "leg_niveldocliente",
         leg_porte: "leg_porte"
     },
     PorteOnChange: function (context) {
