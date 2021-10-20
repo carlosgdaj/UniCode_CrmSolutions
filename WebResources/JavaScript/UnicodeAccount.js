@@ -38,9 +38,9 @@ Unicode.Account = {
         var formContext = context.getFormContext();
         var cnpjField = "leg_cnpj";
 
-        var cnpj = formContext.getAttribute(cnjpField).getValue();
+        var cnpj = formContext.getAttribute(cnpjField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-        cnpj = replace(/[\s.-]*/igm, '');
+        
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
             formContext.getAttribute(cnpjField).setValue("");
@@ -60,7 +60,7 @@ Unicode.Account = {
 
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-        cep = replace(/[\s.-]*/igm, '');
+        
         if (cep.length != 8) {
             this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
             formContext.getAttribute(cepField).setValue("");
@@ -75,6 +75,19 @@ Unicode.Account = {
 
     },
 
+    DynamicsCustomAlert: function (alertText, alertTitle) {
+
+        var alertStrings = {
+            confirmButtonLabel: "OK",
+            text: alertText,
+            title: alertTitle
+        };
+        var alertOptions = {
+            heigth: 120,
+            width: 200
+        };
+        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+    }
 }
 
 
