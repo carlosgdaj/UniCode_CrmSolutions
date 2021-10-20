@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginUniCode", "PluginUniCode\PluginUniCode.csproj", "{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebResources", "WebResources\WebResources.vbproj", "{329654DC-45BF-4D1C-B833-EF9689AEEF33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329654DC-45BF-4D1C-B833-EF9689AEEF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329654DC-45BF-4D1C-B833-EF9689AEEF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329654DC-45BF-4D1C-B833-EF9689AEEF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329654DC-45BF-4D1C-B833-EF9689AEEF33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
