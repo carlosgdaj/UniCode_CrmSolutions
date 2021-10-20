@@ -8,6 +8,6 @@ namespace PluginUniCode
 {
     public class Class1
     {
-        string nome = "gabriel";
+        string nome = "carlos";
     }
 }
