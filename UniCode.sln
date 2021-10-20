@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginUniCode", "PluginUniCode\PluginUniCode.csproj", "{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE33CB9-2100-4A6D-AF80-D18F94E5D56B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9712C4F7-3025-4285-B866-58A6554D6DAB}
+	EndGlobalSection
+EndGlobal
