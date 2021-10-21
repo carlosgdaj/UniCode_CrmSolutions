@@ -32,6 +32,7 @@ Unicode.Account = {
         else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
             formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
 
+        
     },
 
     CNJPOnchange: function (context) {
@@ -40,11 +41,8 @@ Unicode.Account = {
 
         var cnpj = formContext.getAttribute(cnjpField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-<<<<<<< HEAD
 
-=======
-
->>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
+       
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
             formContext.getAttribute(cnpjField).setValue("");
@@ -64,28 +62,17 @@ Unicode.Account = {
 
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-<<<<<<< HEAD
-
-=======
-
->>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
         if (cep.length != 8) {
             this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
             formContext.getAttribute(cepField).setValue("");
         }
         else {
-
             cep = cep.replace(/^([\d]{5})([\d]{3})|^[\d]{5}-[\d]{3}/, "$1-$2");
             formContext.getAttribute(cepField).setValue(cep);
-
         }
-
-
     },
 
-<<<<<<< HEAD
     DynamicsCustomAlert: function (alertText, alertTitle) {
-
         var alertStrings = {
             confirmButtonLabel: "OK",
             text: alertText,
@@ -96,15 +83,46 @@ Unicode.Account = {
             width: 200
         };
         Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+    },
+    NAMEOnchange: function (context) {
+        var formContext = context.getFormContext();
+        var atributoNome = Unicode.Account.Attributos.name;
+        var nome = formContext.getAttribute(atributoNome).getValue();
+
+        if (nome == null || nome == " ") {
+            this.DynamicsCustomAlert("Digite um nome válido", "NOME INVÀLIDO");
+        }
+        else {
+            words = nome.split(" ");
+            function nameFormat(phrase) {
+                phrase = phrase.toLowerCase();
+                return phrase[0].toUpperCase() + phrase.slice(1);
+            }
+            function captal(phrase) {
+
+                phraseModify = []
+                for (let i = 0; i < words.length; i++) {
+                    phraseModify[i] = nameFormat(words[i]);
+                }
+                for (let i = 0; i < words.length; i++) {
+
+                    if (phraseModify[i].length <= 2) {
+                        phraseModify[i] = words[i].toLowerCase();
+
+                    }
+                    else {
+                        continue
+                    }
+                }
+                return phraseModify.join(" ")
+
+            }
+            phraseModified = captal(words);
+            formContext.getAttribute(Unicode.Account.Attributos.name).setValue(phraseModified);
+        }
+
     }
 
-
-
-
-
-
-=======
->>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
 }
 
 
