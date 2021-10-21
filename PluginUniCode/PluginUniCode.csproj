@@ -120,6 +120,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\CheckDuplicateCNPJ.cs" />
     <Compile Include="Opportunity\AlphaNumerico.cs" />
     <Compile Include="PluginImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
