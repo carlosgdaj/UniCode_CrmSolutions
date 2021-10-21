@@ -15,10 +15,26 @@ Unicode.Opportunity = {
 
         var attributeName = Unicode.Opportunity.Attributos.leg_oportunidadeid;
 
+        var id = Unicode.Opportunity.geraCodigo();
 
-        var id = !formContext.getAttribute(attributeName).getValue() ? Unicode.Opportunity.geraCodigo() : formContext.getAttribute(attributeName).getValue();
-        formContext.getAttribute(attributeName).setValue(id);
-       
+        Xrm.WebApi.online.retrieveMultipleRecords("opportunity", "?$select=leg_oportunidadeid&$filter=leg_oportunidadeid eq '" + id + "'").then(
+            function success(results) {
+                if (results.entities.length > 0) {
+                    id = !formContext.getAttribute(attributeName).getValue() ? Unicode.Opportunity.geraCodigo() : formContext.getAttribute(attributeName).getValue();                   
+                    formContext.getAttribute(attributeName).setValue(id);
+                }
+                else {
+                    
+                    id = !formContext.getAttribute(attributeName).getValue() ? id : formContext.getAttribute(attributeName).getValue();
+                    formContext.getAttribute(attributeName).setValue(id);
+
+                }
+            },
+            function (error) {
+                DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
+            }
+        );      
+
     },
     rand: function (min, max) {
         return Math.floor(Math.random() * (max - min) + min);
