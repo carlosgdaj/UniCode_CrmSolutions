@@ -14,10 +14,9 @@ namespace PluginUniCode.Opportunity
         {
             Entity opportunity = (Entity)this.Context.InputParameters["Target"];
 
-            
             opportunity["leg_oportunidadeid"] = generateCode();
-            this.Service.Update(opportunity);
-            
+            this.Service.Update(opportunity);                      
+
         }
         public string generateCode()
         {
@@ -31,17 +30,13 @@ namespace PluginUniCode.Opportunity
             
             arrayID[2] = "-";
 
-            Random rand1 = new Random();
-            arrayID[3] = Convert.ToChar(rand1.Next(65, 91)).ToString();
+            arrayID[3] = Convert.ToChar(rand.Next(65, 91)).ToString();
 
-            Random rand2 = new Random();
-            arrayID[4] = Convert.ToChar(rand2.Next(48, 58)).ToString();
+            arrayID[4] = Convert.ToChar(rand.Next(48, 58)).ToString();
 
-            Random rand3 = new Random();
-            arrayID[5] = Convert.ToChar((rand3.Next(65, 91) + 1) > 91 ? rand3.Next(65, 91) - 1 : rand3.Next(65, 91) + 1).ToString();
+            arrayID[5] = Convert.ToChar((rand.Next(65, 91) + 1) > 91 ? rand.Next(65, 91) - 1 : rand.Next(65, 91) + 1).ToString();
 
-            Random rand4 = new Random();
-            arrayID[6] = Convert.ToChar((rand4.Next(48, 58) + 1) > 58 ? rand4.Next(48, 58) - 1 : rand4.Next(48, 58) + 1).ToString();
+            arrayID[6] = Convert.ToChar((rand.Next(48, 58) + 1) > 58 ? rand.Next(48, 58) - 1 : rand.Next(48, 58) + 1).ToString();
            
             string id = String.Join("", arrayID);
             return id;
