@@ -22,16 +22,15 @@ Unicode.Account = {
 
         var valordoCampo = formContext.getAttribute(attributeName).getValue();//valor do campo porte
 
-        if (valordoCampo == Unicode.Account.LEG_porte.Pequeno) {
-            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Silver);
-        } else {
-            if (valordoCampo == Unicode.Account.LEG_porte.Medio) {
-                formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Gold);
-            } else {
-                if (valordoCampo == Unicode.Account.LEG_porte.Grande) {
-                    formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);
-                }
-            }
+        if (valordoCampo == Unicode.Account.LEG_porte.Pequeno)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Silver);//se valor do campo porte for pequeno, set value silver no nivel do cliente
+
+        else if (valordoCampo == Unicode.Account.LEG_porte.Medio)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Gold);//se valor do campo porte for pequeno, set value gold no nivel do cliente
+
+        else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
+
         }
     },
     CNJPOnchange: function (context) {
