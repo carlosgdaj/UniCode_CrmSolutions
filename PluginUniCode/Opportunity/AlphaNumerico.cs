@@ -38,22 +38,22 @@ namespace PluginUniCode.Opportunity
         {
             this.TracingService.Trace("Entrou no generate");
 
-            string[] arrayID = new string[14];
+            char[] arrayID = new char[14];
             this.TracingService.Trace("array de " + arrayID.Length + "Posições");
             for (int i = 0; i < arrayID.Length; i++)
             {
                 this.TracingService.Trace("Editando posição: " + i);
                 if (i == 0)
                 {
-                    arrayID[i] = "O";
+                    arrayID[i] = 'O';
                 }
                 else if (i == 1 || i == 2)
                 {
-                    arrayID[i] = "P";
+                    arrayID[i] = 'P';
                 }
                 else if (i == 3 || i == 9)
                 {
-                    arrayID[i] = "-";
+                    arrayID[i] = '-';
                 }
                 else if(i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 11 || i == 13)
                 {
@@ -79,11 +79,11 @@ namespace PluginUniCode.Opportunity
             Random rand = new Random();
             return (rand.Next(min, max)).ToString();
         }
-        public string gerarMaiscula()
+        public char gerarMaiscula()
         {
-            return Convert.ToChar(rand(65, 91)).ToString();
+            return Convert.ToChar(rand(65, 91));
         }
-        public string gerarNumero()
+        public char gerarNumero()
         {
             this.TracingService.Trace("Entrou no GERARNUMERO ");
 

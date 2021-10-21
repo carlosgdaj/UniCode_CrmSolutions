@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PluginUniCode.Account
 {
-    class CheckDuplicateCNPJ : PluginImplementation
+    public class CheckDuplicateCNPJ : PluginImplementation
     {
         public override void ExecutePlugin(IServiceProvider serviceProvider)
         {
