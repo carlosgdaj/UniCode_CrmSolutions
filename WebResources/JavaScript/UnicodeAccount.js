@@ -14,7 +14,8 @@ Unicode.Account = {
     },
     Attributos: {
         leg_niveldocliente: "leg_niveldocliente",
-        leg_porte: "leg_porte"
+        leg_porte: "leg_porte",
+        name: "name"
     },
     PorteOnChange: function (context) {
         var formContext = context.getFormContext();//formulario conta
@@ -30,13 +31,10 @@ Unicode.Account = {
 
         else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
             formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
-
     },
-
     CNJPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cnpjField = "leg_cnpj";
-
         var cnpj = formContext.getAttribute(cnjpField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
 
@@ -45,18 +43,13 @@ Unicode.Account = {
             formContext.getAttribute(cnpjField).setValue("");
         }
         else {
-
             cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
             formContext.getAttribute(cnpjField).setValue(cnpj);
-
         }
-
-
     },
     CEPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cepField = "address1_postalcode";
-
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
 
@@ -65,14 +58,57 @@ Unicode.Account = {
             formContext.getAttribute(cepField).setValue("");
         }
         else {
-
-            cep = cep.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+            cep = cep.replace(/^([\d]{5})([\d]{3})|^[\d]{5}-[\d]{3}/, "$1-$2");
             formContext.getAttribute(cepField).setValue(cep);
-
         }
-
     },
+    DynamicsCustomAlert: function (alertText, alertTitle) {
+        var alertStrings = {
+            confirmButtonLabel: "OK",
+            text: alertText,
+            title: alertTitle
+        };
+        var alertOptions = {
+            heigth: 120,
+            width: 200
+        };
+        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+    },
+    NAMEOnchange: function (context) {
+        var formContext = context.getFormContext();
 
+        var atributoNome = Unicode.Account.Attributos.name;
+        var nome = formContext.getAttribute(atributoNome).getValue();
+
+        if (nome == null || nome == " ") {
+            this.DynamicsCustomAlert("Digite um nome válido", "NOME INVÀLIDO");
+        }
+        else {
+            words = nome.split(" ");
+            function nameFormat(phrase) {
+                phrase = phrase.toLowerCase();
+                return phrase[0].toUpperCase() + phrase.slice(1);
+            }
+            function captal(phrase) {
+                phraseModify = []
+                for (let i = 0; i < words.length; i++) {
+                    phraseModify[i] = nameFormat(words[i]);
+                }
+                for (let i = 0; i < words.length; i++) {
+
+                    if (phraseModify[i].length <= 2) {
+                        phraseModify[i] = words[i].toLowerCase();
+                    }
+                    else {
+                        continue
+                    }
+                }
+                return phraseModify.join(" ")
+            }
+            phraseModified = captal(words);
+            formContext.getAttribute(Unicode.Account.Attributos.name).setValue(phraseModified);
+        }
+    }
 }
 
 
