@@ -31,7 +31,6 @@ Unicode.Account = {
         else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
             formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
 
-
     },
 
     CNJPOnchange: function (context) {
@@ -40,7 +39,7 @@ Unicode.Account = {
 
         var cnpj = formContext.getAttribute(cnjpField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-        cnpj = replace(/[\s.-]*/igm, '');
+
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
             formContext.getAttribute(cnpjField).setValue("");
@@ -60,7 +59,7 @@ Unicode.Account = {
 
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-        cep = replace(/[\s.-]*/igm, '');
+
         if (cep.length != 8) {
             this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
             formContext.getAttribute(cepField).setValue("");
@@ -71,7 +70,6 @@ Unicode.Account = {
             formContext.getAttribute(cepField).setValue(cep);
 
         }
-
 
     },
 
