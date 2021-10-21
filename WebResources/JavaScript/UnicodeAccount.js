@@ -23,25 +23,28 @@ Unicode.Account = {
 
         var valordoCampo = formContext.getAttribute(attributeName).getValue();//valor do campo porte
 
-        if (valordoCampo == Unicode.Account.LEG_porte.Pequeno) {
-            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Silver);
-        } else {
-            if (valordoCampo == Unicode.Account.LEG_porte.Medio) {
-                formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Gold);
-            } else {
-                if (valordoCampo == Unicode.Account.LEG_porte.Grande) {
-                    formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);
-                }
-            }
-        }
+        if (valordoCampo == Unicode.Account.LEG_porte.Pequeno)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Silver);//se valor do campo porte for pequeno, set value silver no nivel do cliente
+
+        else if (valordoCampo == Unicode.Account.LEG_porte.Medio)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Gold);//se valor do campo porte for pequeno, set value gold no nivel do cliente
+
+        else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
+            formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
+
     },
+
     CNJPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cnpjField = "leg_cnpj";
 
-        var cnpj = formContext.getAttribute(cnpjField).getValue();
+        var cnpj = formContext.getAttribute(cnjpField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
             formContext.getAttribute(cnpjField).setValue("");
@@ -61,7 +64,11 @@ Unicode.Account = {
 
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
         if (cep.length != 8) {
             this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
             formContext.getAttribute(cepField).setValue("");
@@ -76,6 +83,7 @@ Unicode.Account = {
 
     },
 
+<<<<<<< HEAD
     DynamicsCustomAlert: function (alertText, alertTitle) {
 
         var alertStrings = {
@@ -88,13 +96,15 @@ Unicode.Account = {
             width: 200
         };
         Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
-    },
+    }
 
 
 
 
 
 
+=======
+>>>>>>> a9b08350854186fc9f8853e51cbb1e9df7a5b93a
 }
 
 
