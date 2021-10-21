@@ -31,8 +31,8 @@ Unicode.Account = {
         else if (valordoCampo == Unicode.Account.LEG_porte.Grande)
             formContext.getAttribute(Unicode.Account.Attributos.leg_niveldocliente).setValue(Unicode.Account.LEG_niveldocliente.Platinum);//se valor do campo porte for pequeno, set value platinum no nivel do cliente
 
-        }
     },
+
     CNJPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cnpjField = "leg_cnpj";
