@@ -39,30 +39,31 @@ namespace PluginUniCode.Opportunity
             this.TracingService.Trace("Entrou no generate");
 
             string[] arrayID = new string[14];
-            for(int i = 0; i < arrayID.Length; i++)
+            this.TracingService.Trace("array de " + arrayID.Length + "Posições");
+            for (int i = 0; i < arrayID.Length; i++)
             {
                 this.TracingService.Trace("Editando posição: " + i);
                 if (i == 0)
                 {
                     arrayID[i] = "O";
                 }
-                if (i == 1 || i == 2)
+                else if (i == 1 || i == 2)
                 {
                     arrayID[i] = "P";
                 }
-                if (i == 3 || i == 9)
+                else if (i == 3 || i == 9)
                 {
                     arrayID[i] = "-";
                 }
-                if(i > 3 && i < 9 )
+                else if(i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 11 || i == 13)
                 {
+                    this.TracingService.Trace("ENTROU NO 4");
+
                     arrayID[i] = gerarNumero();
+                    this.TracingService.Trace("GEROU DIGITO POSICAO 4");
                 }
-                if(i == 11 || i == 13)
-                {
-                    arrayID[i] = gerarNumero();
-                }
-                if (i == 10 || i == 12)
+                
+                else if (i == 10 || i == 12)
                 {
                     arrayID[i] = gerarMaiscula();
                 }
@@ -84,7 +85,11 @@ namespace PluginUniCode.Opportunity
         }
         public string gerarNumero()
         {
-            return Convert.ToChar(rand(48, 58)).ToString();
+            this.TracingService.Trace("Entrou no GERARNUMERO ");
+
+            char numeroGerado = Convert.ToChar(rand(48, 58));
+            this.TracingService.Trace("Numero: "+ numeroGerado);
+            return numeroGerado;
         }
     }
 }
