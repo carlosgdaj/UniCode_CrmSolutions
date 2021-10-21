@@ -92,48 +92,7 @@ Unicode.Account = {
 
     
     
-    NAMEOnchange: function (context) {
-        var formContext = context.getFormContext();
-        
-        var atributoNome = Unicode.Account.Attributos.name;
-        var nome = formContext.getAttribute(atributoNome).getValue();
-        
-
-        if (nome == null || nome == " ") {
-            this.DynamicsCustomAlert("Digite um nome válido","NOME INVÀLIDO");
-        }
-        else {
-            words = nome.split(" ");
-            function nameFormat(phrase) {
-                phrase = phrase.toLowerCase();
-                return phrase[0].toUpperCase() + phrase.slice(1);
-            }
-
-            function captal(phrase) {
-
-                phraseModify = []
-                for (let i = 0; i < words.length; i++) {
-                    phraseModify[i] = nameFormat(words[i]);
-                }
-                for (let i = 0; i < words.length; i++) {
-
-                    if (phraseModify[i].length <= 2) {
-                        phraseModify[i] = words[i].toLowerCase();
-                        
-                    }
-                    else {
-                        continue
-                    }
-                }
-                return phraseModify.join(" ")
-
-            }
-
-            phraseModified = captal(words);
-            formContext.getAttribute(Unicode.Account.Attributos.name).setValue(phraseModified);
-        }
-
-    }
+    
     
 
     }
