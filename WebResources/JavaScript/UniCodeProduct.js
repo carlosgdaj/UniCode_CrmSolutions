@@ -16,7 +16,7 @@ Unicode.Product = {
         },
     TipoDeGraduacaoOnChange: function (context) {
         var formContext = context.getFormContext();
-        var attributeName = Unicode.Product.Attributos.leg_porte;
+        var attributeName = Unicode.Product.Attributos.leg_tipodegraduacao;
         var valordoCampo = formContext.getAttribute(attributeName).getValue();
 
         if (valordoCampo == Unicode.Product.LEG_tipodegraduacao.Tecnologo)
