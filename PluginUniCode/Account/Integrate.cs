@@ -18,8 +18,6 @@ namespace PluginUniCode.Account
                 throw new InvalidPluginExecutionException("Conexão realizada com sucesso");
             else
                 throw new InvalidPluginExecutionException("Conexão não realiza");
-            //gabriel
-            //carlos
         }
 
         public static IOrganizationService GetCrmService()
