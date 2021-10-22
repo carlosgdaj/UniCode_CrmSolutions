@@ -26,22 +26,20 @@ namespace PluginUniCode.Product
             }
             else if (this.Context.MessageName == "Update")
             {
-                this.TracingService.Trace("Entrou do If Update");
-                QueryExpression query = new QueryExpression(productLegado.LogicalName);
-                query.ColumnSet.AddColumn("productnumber");
-                query.Criteria.AddCondition("productnumber", ConditionOperator.Equal, productLegado["productnumber"]);
-                EntityCollection productsForms = service.RetrieveMultiple(query);
-                this.TracingService.Trace("Passou da query");
+
+                Entity postProduct = this.Context.PostEntityImages["PostImageUpdate"];
+                QueryExpression queryUpdate = new QueryExpression("product");
+                queryUpdate.ColumnSet.AddColumn("productnumber");
+                queryUpdate.Criteria.AddCondition("productnumber", ConditionOperator.Equal, postProduct["productnumber"]);
+                EntityCollection productsForms = service.RetrieveMultiple(queryUpdate);
                 foreach (Entity form in productsForms.Entities)
                 {
-
-                    this.TracingService.Trace("ID DO FORM" + form.Id);
-                    //productDestino.Id = new Guid(form.Id.ToString());
-                    //productDestino["name"] = productLegado["name"];
-                    ////Importação(productLegado, productDestino);
-                    //service.Update(productDestino);
+                    service.Delete(form.LogicalName, form.Id);                   
                 }
 
+                Importação(productLegado, productDestino);
+
+                service.Create(productDestino);
             }
             else
             {
@@ -69,16 +67,15 @@ namespace PluginUniCode.Product
 
         private static void Importação(Entity productLegado, Entity productDestino)
         {
-            productDestino["productnumber"] = productLegado["productnumber"];
+
             productDestino["name"] = productLegado["name"];
-          //productDestino["parentproductid"] = productLegado["parentproductid"];
+            productDestino["productnumber"] = productLegado["productnumber"];
             productDestino["leg_tipodegraduacao"] = productLegado["leg_tipodegraduacao"];
-            //productDestino["description"] = productLegado["description"];
-           // productDestino["leg_tempodecurso"] = productLegado["leg_tempodecurso"];
-            //productDestino["currentcost"] = productLegado["currentcost"];
+            productDestino["description"] = productLegado.Contains("description") ? productLegado["description"] : String.Empty;
+            productDestino["leg_tempodecurso"] = productLegado.Contains("leg_tempodecurso") ? productLegado["leg_tempodecurso"] : null;
+            productDestino["currentcost"] = productLegado.Contains("currentcost") ? productLegado["currentcost"] : new Money() { Value = new decimal(0) };
             productDestino["defaultuomscheduleid"] = productLegado["defaultuomscheduleid"];
             productDestino["defaultuomid"] = productLegado["defaultuomid"];
-           // productDestino["pricelevelid"] = productLegado["pricelevelid"];
             productDestino["quantitydecimal"] = productLegado["quantitydecimal"];
         }
 
