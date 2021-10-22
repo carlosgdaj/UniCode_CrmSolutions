@@ -12,12 +12,25 @@ namespace PluginUniCode.Account
     {
         public override void ExecutePlugin(IServiceProvider serviceProvider)
         {
-            IOrganizationService service = GetCrmService();
+            Entity accountLegado = (Entity)this.Context.InputParameters["Target"];
 
-            if (service != null)
-                throw new InvalidPluginExecutionException("Conexão realizada com sucesso");
-            else
-                throw new InvalidPluginExecutionException("Conexão não realiza");
+
+
+            IOrganizationService service = GetCrmService();
+            Entity accountDestino = new Entity("account");
+            accountDestino["name"] = accountLegado["name"];
+
+            accountDestino["name"] = accountLegado["name"];
+            accountDestino["leg_cnpj"] = accountDestino["leg_cnpj"];
+            
+            service.Create(accountDestino);
+
+
+
+            //if (service != null)
+            //    throw new InvalidPluginExecutionException("Conexão realizada com sucesso");
+            //else
+            //    throw new InvalidPluginExecutionException("Conexão não realiza");
         }
 
         public static IOrganizationService GetCrmService()
