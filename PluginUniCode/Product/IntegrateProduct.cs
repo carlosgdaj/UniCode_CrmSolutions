@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,30 +18,27 @@ namespace PluginUniCode.Product
             IOrganizationService service = GetCrmService();
             Entity productLegado = GetContext(this.Context);
             Entity productDestino = new Entity(productLegado.LogicalName);
-            
-
+           
             if (this.Context.MessageName == "Create")
             {
                 Importação(productLegado, productDestino);
-
                 service.Create(productDestino);
             }
             else if (this.Context.MessageName == "Update")
             {
-
                 Entity postProduct = this.Context.PostEntityImages["PostImageUpdate"];
-                QueryExpression queryUpdate = new QueryExpression("product");
-                queryUpdate.ColumnSet.AddColumn("productnumber");
+
+                QueryExpression queryUpdate = new QueryExpression("product");                
+                queryUpdate.ColumnSet.AddColumns("productnumber", "name", "leg_tipodegraduacao","description","leg_tempodecurso","currentcost","defaultuomscheduleid","defaultuomid","quantitydecimal");
                 queryUpdate.Criteria.AddCondition("productnumber", ConditionOperator.Equal, postProduct["productnumber"]);
                 EntityCollection productsForms = service.RetrieveMultiple(queryUpdate);
+                this.TracingService.Trace("Depois da query");
+
                 foreach (Entity form in productsForms.Entities)
                 {
-                    service.Delete(form.LogicalName, form.Id);                   
+                    Importação(postProduct, form);                    
+                    service.Update(form);
                 }
-
-                Importação(productLegado, productDestino);
-
-                service.Create(productDestino);
             }
             else
             {
@@ -52,22 +51,15 @@ namespace PluginUniCode.Product
                     query.Criteria.AddCondition("productnumber", ConditionOperator.Equal, preProduct["productnumber"]);
                     EntityCollection productsForms = service.RetrieveMultiple(query);
 
-                    foreach(Entity form in productsForms.Entities)
+                    foreach (Entity form in productsForms.Entities)
                     {
                         service.Delete(form.LogicalName, form.Id);
                     }
-                    
                 }
-                
             }
-
-
-
         }
-
         private static void Importação(Entity productLegado, Entity productDestino)
         {
-
             productDestino["name"] = productLegado["name"];
             productDestino["productnumber"] = productLegado["productnumber"];
             productDestino["leg_tipodegraduacao"] = productLegado["leg_tipodegraduacao"];
@@ -78,11 +70,10 @@ namespace PluginUniCode.Product
             productDestino["defaultuomid"] = productLegado["defaultuomid"];
             productDestino["quantitydecimal"] = productLegado["quantitydecimal"];
         }
-
         private Entity GetContext(IPluginExecutionContext context)
         {
             Entity product = new Entity();
-            if(context.MessageName == "Create" || context.MessageName == "Update")
+            if (context.MessageName == "Create" || context.MessageName == "Update")
             {
                 this.TracingService.Trace("Entrou do If Update");
 
@@ -90,14 +81,13 @@ namespace PluginUniCode.Product
             }
             else
             {
-                if(context.MessageName == "Delete")
+                if (context.MessageName == "Delete")
                 {
                     product = (Entity)context.PreEntityImages["PreImage"];
                 }
             }
             return product;
         }
-
         public static IOrganizationService GetCrmService()
         {
             string connectionString =
