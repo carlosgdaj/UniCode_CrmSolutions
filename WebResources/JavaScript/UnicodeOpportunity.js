@@ -31,7 +31,7 @@ Unicode.Opportunity = {
                 }
             },
             function (error) {
-                DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
+                Unicode.Opportunity.DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
             }
         );      
 
@@ -62,5 +62,17 @@ Unicode.Opportunity = {
         }
 
         return id.join('').slice(0, 15);
+    },
+    DynamicsCustomAlert: function (alertText, alertTitle) {
+        var alertStrings = {
+            confirmButtonLabel: "OK",
+            text: alertText,
+            title: alertTitle
+        };
+        var alertOptions = {
+            heigth: 120,
+            width: 200
+        };
+        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
     }
 };
