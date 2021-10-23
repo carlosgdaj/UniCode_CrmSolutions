@@ -37,6 +37,7 @@ Unicode.Account = {
         var cnpjField = "leg_cnpj";
         var cnpj = formContext.getAttribute(cnjpField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
+        cep = cep.replace("/[0-9]/g", "");
 
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
@@ -46,13 +47,16 @@ Unicode.Account = {
             cnpj = cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
             formContext.getAttribute(cnpjField).setValue(cnpj);
         }
+        if (cnpj == null) {
+            return;
+        }
     },
     CEPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cepField = "address1_postalcode";
         var cep = formContext.getAttribute(cepField).getValue();
         cep = cep.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-
+        cep = cep.replace("/[0-9]/g", "");
         if (cep.length != 8) {
             this.DynamicsCustomAlert("Por favor digite 8 dígitos no campo de CEP", "Erro de Validação de CEP");
             formContext.getAttribute(cepField).setValue("");
@@ -60,6 +64,9 @@ Unicode.Account = {
         else {
             cep = cep.replace(/^([\d]{5})([\d]{3})|^[\d]{5}-[\d]{3}/, "$1-$2");
             formContext.getAttribute(cepField).setValue(cep);
+        }
+        if (cep == null) {
+            return;
         }
     },
     DynamicsCustomAlert: function (alertText, alertTitle) {
