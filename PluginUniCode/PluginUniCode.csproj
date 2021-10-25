@@ -158,6 +158,7 @@
   <ItemGroup>
     <Compile Include="Account\CheckDuplicateCNPJ.cs" />
     <Compile Include="Account\Integrate.cs" />
+    <Compile Include="Contact\CheckDuplicationCPF.cs" />
     <Compile Include="PluginImplementation.cs" />
     <Compile Include="Product\IntegrateProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
