@@ -6,11 +6,50 @@ if (typeof Unicode.Opportunity == 'undefined') {
 }
 
 Unicode.Opportunity = {
+    statecode={
+        Aberto: 0,
+        Ganho: 1,
+        Fechado: 2
+    },
     Attributos: {
-        leg_oportunidadeid: 'leg_oportunidadeid'
+        leg_oportunidadeid: 'leg_oportunidadeid',
+        statecode: "statecode",
+        parentcontactid: "parentcontactid"
+    },
+    OnSaveStatusCode: function (context) {
+        var formContext = context.getFormContext();
+        var attributeName = Unicode.Opportunity.Attributos.statecode;
+
+        var status = formContext.getAttribute(attributeName).getValue();
+
+        if (status == Unicode.Opportunity.statecode.Ganho) {
+
+            var contact = formContext.getAttribute(Unicode.Opportunity.Attributos.parentcontactid).getValue();
+            CreateNotification(contact[0].id, contact[0].name);
+
+
+        }
+    },
+    CreateNotification: function (contactId, contactName) {
+        
+        var entity = {}
+        entity.["leg_nomedocliente@odata.bind"] = "/contacts(" + contactId + ")";
+        entity.leg_datadanotificacao = new Date();
+        entity.leg_mensagemdanotificacao = `Bem vindo a UniCode, ${contactName}!\nAgradecemos a sua escolha, sua matrícula foi concluída, agora é com você. Dê o seu melhor e se destaque!\nAtt. Equipe UniCode`;
+
+        Xrm.WebApi.online.createRecord("leg_notificacaoaocliente", entity).then(
+            function success(result) {
+                var newEntityId = result.id;
+
+                Treinamento.Account.DynamicsCustomAlert("Uma nova conta foi criada com o ID " + newEntityId, "ContaCriada");
+            },
+            function (error) {
+                Treinamento.Account.DynamicsCustomAlert(error.message, "Error");
+            }
+        );
     },
     OnSave: function (context) {
-
+        OnSaveStatusCode(context);
         var formContext = context.getFormContext();
 
         var attributeName = Unicode.Opportunity.Attributos.leg_oportunidadeid;
@@ -31,7 +70,7 @@ Unicode.Opportunity = {
                 }
             },
             function (error) {
-                DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
+                Unicode.Opportunity.DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
             }
         );      
 
@@ -62,5 +101,17 @@ Unicode.Opportunity = {
         }
 
         return id.join('').slice(0, 15);
+    },
+    DynamicsCustomAlert: function (alertText, alertTitle) {
+        var alertStrings = {
+            confirmButtonLabel: "OK",
+            text: alertText,
+            title: alertTitle
+        };
+        var alertOptions = {
+            heigth: 120,
+            width: 200
+        };
+        Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
     }
 };
