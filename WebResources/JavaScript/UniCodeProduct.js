@@ -60,6 +60,7 @@ Unicode.Product = {
         grupoDeUnidades[0].entityType = "uomschedule";
         grupoDeUnidades[0].name = "Default Unit";
 
+
         var unidade = [];
         unidade[0] = {};
         unidade[0].id = "d9b2478f-792e-ec11-b6e6-00224837b5f6";
