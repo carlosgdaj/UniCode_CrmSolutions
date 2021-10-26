@@ -15,6 +15,7 @@ Unicode.LOpportunity = {
             },
             function (error) {
                 alert(error.message, "Erro com a mensalidade");
+
             }
 
         );
