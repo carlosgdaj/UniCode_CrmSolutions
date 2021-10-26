@@ -11,6 +11,7 @@ Unicode.Account = {
         Silver: 100000000,
         Gold: 100000001,
         Platinum: 100000002
+
     },
     Attributos: {
         leg_niveldocliente: "leg_niveldocliente",
