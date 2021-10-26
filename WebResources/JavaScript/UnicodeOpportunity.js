@@ -1,16 +1,12 @@
-if (typeof Unicode == 'undefined') {
-    Unicode = {};
-}
-if (typeof Unicode.Opportunity == 'undefined') {
-    Unicode.Opportunity = {};
-}
+if (typeof (Unicode) == 'undefined') { Unicode = {} }
+if (typeof (Unicode.Opportunity) == 'undefined') { Unicode.Opportunity = {} }
 
-Unicode.Opportunity = {
+Unicode.Opportunity = {    
     Attributos: {
-        leg_oportunidadeid: 'leg_oportunidadeid'
+        leg_oportunidadeid: 'leg_oportunidadeid'        
     },
     OnSave: function (context) {
-
+        debugger;
         var formContext = context.getFormContext();
 
         var attributeName = Unicode.Opportunity.Attributos.leg_oportunidadeid;
@@ -20,11 +16,11 @@ Unicode.Opportunity = {
         Xrm.WebApi.online.retrieveMultipleRecords("opportunity", "?$select=leg_oportunidadeid&$filter=leg_oportunidadeid eq '" + id + "'").then(
             function success(results) {
                 if (results.entities.length > 0) {
-                    id = !formContext.getAttribute(attributeName).getValue() ? Unicode.Opportunity.geraCodigo() : formContext.getAttribute(attributeName).getValue();                   
+                    id = !formContext.getAttribute(attributeName).getValue() ? Unicode.Opportunity.geraCodigo() : formContext.getAttribute(attributeName).getValue();
                     formContext.getAttribute(attributeName).setValue(id);
                 }
                 else {
-                    
+
                     id = !formContext.getAttribute(attributeName).getValue() ? id : formContext.getAttribute(attributeName).getValue();
                     formContext.getAttribute(attributeName).setValue(id);
 
@@ -33,7 +29,7 @@ Unicode.Opportunity = {
             function (error) {
                 Unicode.Opportunity.DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
             }
-        );      
+        );
 
     },
     rand: function (min, max) {
