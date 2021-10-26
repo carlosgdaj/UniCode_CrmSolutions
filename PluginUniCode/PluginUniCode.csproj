@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.0.92\lib\net462\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.42\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
@@ -156,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\CheckDuplicateCNPJ.cs" />
-   
     <Compile Include="Opportunity\IntegrateOpportunity.cs" />
     <Compile Include="Opportunity\OpportunityWinCreateNotification.cs" />
     <Compile Include="Contact\CheckDuplicationCPF.cs" />
