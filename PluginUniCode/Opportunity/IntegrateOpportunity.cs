@@ -71,10 +71,7 @@ namespace PluginUniCode.Opportunity
             opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];
             opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];
             opportunityDestino["parentaccountid"] = opportunityLegado["parentaccountid"];
-            opportunityDestino["leg_portadordedeficiencia"] = opportunityLegado["leg_portadordedeficiencia"];
             opportunityDestino["description"] = opportunityLegado["description"];
-
-
         }
 
         private Entity GetContext(IPluginExecutionContext context)
