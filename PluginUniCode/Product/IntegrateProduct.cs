@@ -36,8 +36,10 @@ namespace PluginUniCode.Product
 
                 foreach (Entity form in productsForms.Entities)
                 {
+
                     Importação(postProduct, form);                    
                     service.Update(form);
+
                 }
             }
             else
