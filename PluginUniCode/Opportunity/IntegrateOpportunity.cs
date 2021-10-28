@@ -20,7 +20,7 @@ namespace PluginUniCode.Opportunity
 
             if(Context.MessageName == "Create")
             {
-                Importação(opportunityLegado, opportunityDestino);
+                Importacao(opportunityDestino, opportunityLegado);
                 service.Create(opportunityDestino);
             }
             else if (this.Context.MessageName == "Update")
@@ -28,13 +28,13 @@ namespace PluginUniCode.Opportunity
                 Entity postOpportunity = this.Context.PostEntityImages["PostImage"];
 
                 QueryExpression queryUpdate = new QueryExpression("opportunity");
-                queryUpdate.ColumnSet.AddColumns("leg_oportunidadeid", "name", "leg_datadeinicio", "leg_unidade", "leg_modalidade", "leg_tipodocurso", "leg_turno", "parentaccountid", "leg_portadordedeficiencia", "description");
+                queryUpdate.ColumnSet.AddColumns("leg_oportunidadeid", "name", "leg_datadeinicio", "leg_unidade", "leg_statusdavacina","leg_modalidade", "leg_tipodocurso", "leg_turno", "parentaccountid", "description");
                 queryUpdate.Criteria.AddCondition("leg_oportunidadeid", ConditionOperator.Equal, postOpportunity["leg_oportunidadeid"]);
                 EntityCollection productsForms = service.RetrieveMultiple(queryUpdate);
 
                 foreach(Entity form in productsForms.Entities)
                 {
-                    Importação(postOpportunity, form);
+                    Importacao(form, postOpportunity);
                     service.Update(form);
                 }
             }
@@ -60,18 +60,19 @@ namespace PluginUniCode.Opportunity
 
         }
 
-        private void Importação(Entity opportunityLegado, Entity opportunityDestino)
+        private void Importacao(Entity opportunityDestino, Entity opportunityLegado)
         {
-            opportunityLegado["leg_oportunidadeid"] = opportunityDestino["leg_oportunidadeid"];
-            opportunityLegado["name"] = opportunityDestino["name"];
-            opportunityLegado["leg_datadeinicio"] = opportunityDestino["leg_datadeinicio"];
-            opportunityLegado["leg_unidade"] = opportunityDestino["leg_unidade"];
-            opportunityLegado["leg_modalidade"] = opportunityDestino["leg_modalidade"];
-            opportunityLegado["leg_tipodocurso"] = opportunityDestino["leg_tipodocurso"];
-            opportunityLegado["leg_turno"] = opportunityDestino["leg_turno"];
-            opportunityLegado["parentaccountid"] = opportunityDestino["parentaccountid"];
-            opportunityLegado["leg_portadordedeficiencia"] = opportunityDestino["leg_portadordedeficiencia"];
-            opportunityLegado["description"] = opportunityDestino["description"];
+            opportunityDestino["leg_oportunidadeid"] = opportunityLegado["leg_oportunidadeid"];
+            opportunityDestino["name"] = opportunityLegado["name"];
+            opportunityDestino["leg_datadeinicio"] = opportunityLegado["leg_datadeinicio"];
+            opportunityDestino["leg_unidade"] = opportunityLegado["leg_unidade"];
+            opportunityDestino["leg_statusdavacina"] = opportunityLegado["leg_status"];
+            opportunityDestino["leg_modalidade"] = opportunityLegado["leg_modalidade"];
+            opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];
+            opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];
+            opportunityDestino["parentaccountid"] = opportunityLegado["parentaccountid"];
+            opportunityDestino["leg_portadordedeficiencia"] = opportunityLegado["leg_portadordedeficiencia"];
+            opportunityDestino["description"] = opportunityLegado["description"];
 
 
         }
