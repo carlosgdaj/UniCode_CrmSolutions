@@ -13,7 +13,10 @@ Unicode.Product = {
     Attributos: {
         leg_tempodecurso: "leg_tempodecurso",
         leg_tipodegraduacao: "leg_tipodegraduacao",
-        productnumber: "productnumber"
+        productnumber: "productnumber",
+        defaultuomscheduleid: "defaultuomscheduleid",
+        defaultuomid: "defaultuomid",
+        quantitydecimal: "quantitydecimal"
     },
     TipoDeGraduacaoOnChange: function (context) {
         var formContext = context.getFormContext();
@@ -30,7 +33,7 @@ Unicode.Product = {
         var formContext = context.getFormContext();
 
         var attributeName = Unicode.Product.Attributos.productnumber;
-
+        
         var id = Unicode.Product.geraCodigo();
 
         Xrm.WebApi.online.retrieveMultipleRecords("product", "?$select=productnumber&$filter=productnumber eq '" + id + "'").then(
@@ -50,6 +53,24 @@ Unicode.Product = {
                 Unicode.Product.DynamicsCustomAlert(error.message, "Erro com a Query de Contatos!");
             }
         );
+
+        var grupoDeUnidades = [];
+        grupoDeUnidades[0] = {};
+        grupoDeUnidades[0].id = "d8b2478f-792e-ec11-b6e6-00224837b5f6";
+        grupoDeUnidades[0].entityType = "uomschedule";
+        grupoDeUnidades[0].name = "Default Unit";
+
+
+        var unidade = [];
+        unidade[0] = {};
+        unidade[0].id = "d9b2478f-792e-ec11-b6e6-00224837b5f6";
+        unidade[0].entityType = "uom";
+        unidade[0].name = "Primary Unit";
+
+
+        formContext.getAttribute(Unicode.Product.Attributos.defaultuomscheduleid).setValue(grupoDeUnidades)
+        formContext.getAttribute(Unicode.Product.Attributos.defaultuomid).setValue(unidade)
+        formContext.getAttribute(Unicode.Product.Attributos.quantitydecimal).setValue(0)
 
     },
     rand: function (min, max) {
@@ -77,6 +98,7 @@ Unicode.Product = {
 
         return id.join('');
     },
+
     DynamicsCustomAlert: function (alertText, alertTitle) {
         var alertStrings = {
             confirmButtonLabel: "OK",

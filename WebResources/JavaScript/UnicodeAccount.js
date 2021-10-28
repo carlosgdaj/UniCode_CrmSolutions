@@ -11,6 +11,7 @@ Unicode.Account = {
         Silver: 100000000,
         Gold: 100000001,
         Platinum: 100000002
+
     },
     Attributos: {
         leg_niveldocliente: "leg_niveldocliente",
@@ -35,9 +36,9 @@ Unicode.Account = {
     CNJPOnchange: function (context) {
         var formContext = context.getFormContext();
         var cnpjField = "leg_cnpj";
-        var cnpj = formContext.getAttribute(cnjpField).getValue();
+        var cnpj = formContext.getAttribute(cnpjField).getValue();
         cnpj = cnpj.replace(".", "").replace(".", "").replace("/", "").replace("-", "");
-        cep = cep.replace("/[0-9]/g", "");
+        cnpj = cnpj.replace("/[0-9]/g", "");
 
         if (cnpj.length != 14) {
             this.DynamicsCustomAlert("Por favor digite 14 dígitos no campo CNPJ", "Erro de Validação de CNPJ");
@@ -115,7 +116,14 @@ Unicode.Account = {
             phraseModified = captal(words);
             formContext.getAttribute(Unicode.Account.Attributos.name).setValue(phraseModified);
         }
-    }
+    },
+    
+    
+
+
 }
+
+
+
 
 

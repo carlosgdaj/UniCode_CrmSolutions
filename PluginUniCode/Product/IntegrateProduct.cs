@@ -21,7 +21,7 @@ namespace PluginUniCode.Product
            
             if (this.Context.MessageName == "Create")
             {
-                Importação(productLegado, productDestino);
+                importacao(productLegado, productDestino);
                 service.Create(productDestino);
             }
             else if (this.Context.MessageName == "Update")
@@ -36,8 +36,7 @@ namespace PluginUniCode.Product
 
                 foreach (Entity form in productsForms.Entities)
                 {
-
-                    Importação(postProduct, form);                    
+                    importacao(postProduct, form);                    
                     service.Update(form);
 
                 }
@@ -58,9 +57,10 @@ namespace PluginUniCode.Product
                         service.Delete(form.LogicalName, form.Id);
                     }
                 }
+                
             }
         }
-        private static void Importação(Entity productLegado, Entity productDestino)
+        private static void importacao(Entity productLegado, Entity productDestino)
         {
             productDestino["name"] = productLegado["name"];
             productDestino["productnumber"] = productLegado["productnumber"];

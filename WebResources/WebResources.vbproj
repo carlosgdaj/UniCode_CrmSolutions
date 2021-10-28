@@ -94,6 +94,7 @@
   <ItemGroup>
     <Content Include="JavaScript\UnicodeContact.js" />
     <Content Include="JavaScript\UnicodeAccount.js" />
+    <Content Include="JavaScript\UnicodeLOpportunity.js" />
     <Content Include="JavaScript\UnicodeOpportunity.js" />
     <Content Include="JavaScript\UniCodeProduct.js" />
     <Content Include="Web.config" />
