@@ -5,8 +5,8 @@ Unicode.Opportunity = {
     Attributos: {
         leg_oportunidadeid: 'leg_oportunidadeid'        
     },
-    OnSave: function (context) {
-        debugger;
+    OnChangeName: function (context) {
+        
         var formContext = context.getFormContext();
 
         var attributeName = Unicode.Opportunity.Attributos.leg_oportunidadeid;
