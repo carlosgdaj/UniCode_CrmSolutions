@@ -58,75 +58,16 @@ namespace RoboCargadeDados
 
             timer.Elapsed += OnTimeOut;
         }
-        private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCliente)
+        private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
-            RetornarMultiploClienteContaContato(serviceProxy, serviceProxyCliente);
-            //RetornarMultiploClienteConcorrentes(serviceProxy, serviceProxyCliente);
-            //RetornarMultiploClienteFaturaItens(serviceProxy, serviceProxyCliente);
+            //RetornarMultiploClienteContaContato(serviceProxy, serviceproxyCliente);
+            //RetornarMultiploClienteConcorrentes(serviceProxy, serviceproxyCliente);
+            RetornarMultiploClienteFaturaItens(serviceProxy, serviceproxyCliente);
 
         }
 
-        static EntityCollection RetornarMultiploClienteContaContato(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCiente)
+        static EntityCollection RetornarMultiploClienteContaContato(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
-            //Query Contact
-            QueryExpression queryContato = new QueryExpression("contact");
-            queryContato.Criteria.AddCondition("firstname", ConditionOperator.NotNull);
-            queryContato.Criteria.AddCondition("lastname", ConditionOperator.NotNull);
-            queryContato.Criteria.AddCondition("leg_cpf", ConditionOperator.NotNull);
-
-            queryContato.ColumnSet = new ColumnSet("firstname", "lastname", "leg_cpf", "jobtitle", "parentcustomerid", "emailaddress1", "telephone1", "mobilephone", "fax");
-            EntityCollection entityscollection = serviceProxy.RetrieveMultiple(queryContato);
-
-            foreach (var entity in entityscollection.Entities)
-            {
-                try
-                {
-                    var contact = new Entity("contact");
-                    Guid Registro = new Guid();
-
-                    if (entity.Attributes.Contains("contactid"))
-                        contact.Attributes.Add("contactid", entity.Id);
-
-                    if (entity.Attributes.Contains("firstname"))
-                        contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
-
-                   
-                    if (entity.Attributes.Contains("lastname"))
-                        contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
-
-                    if (entity.Attributes.Contains("leg_cpf"))
-                        contact.Attributes.Add("leg_cpf", entity.GetAttributeValue<string>("leg_cpf"));
-
-                    if (entity.Attributes.Contains("jobtitle"))
-                        contact.Attributes.Add("jobtitle", entity.GetAttributeValue<string>("jobtitle"));
-
-                    if (entity.Attributes.Contains("parentcustomerid"))
-                        contact.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
-
-                    if (entity.Attributes.Contains("emailaddress1"))
-                        contact.Attributes.Add("emailaddress1", entity.GetAttributeValue<string>("emailaddress1"));
-
-                    if (entity.Attributes.Contains("telephone1"))
-                        contact.Attributes.Add("telephone1", entity.GetAttributeValue<string>("telephone1"));
-
-                    if (entity.Attributes.Contains("mobilephone"))
-                        contact.Attributes.Add("mobilephone", entity.GetAttributeValue<string>("mobilephone"));
-
-                    if (entity.Attributes.Contains("fax"))
-                        contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
-
-                   
-
-                    Registro = serviceProxy.Create(contact);
-
-                }
-                catch (Exception e)
-                {
-
-                    Console.WriteLine("{0} Exception.", e);
-                }
-            }
-
             // Query account
             QueryExpression queryAccount = new QueryExpression("account");
             queryAccount.Criteria.AddCondition("name", ConditionOperator.NotNull);
@@ -182,7 +123,7 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("defaultpricelevelid"))
                         account.Attributes.Add("defaultpricelevelid", entity.GetAttributeValue<string>("defaultpricelevelid"));
 
-                    Registro = serviceProxy.Create(account);
+                    Registro = serviceproxyCliente.Create(account);
 
                 }
                 catch (Exception e)
@@ -192,6 +133,68 @@ namespace RoboCargadeDados
                 }
             }
 
+            //Query Contact
+            QueryExpression queryContato = new QueryExpression("contact");
+            queryContato.Criteria.AddCondition("firstname", ConditionOperator.NotNull);
+            queryContato.Criteria.AddCondition("lastname", ConditionOperator.NotNull);
+            queryContato.Criteria.AddCondition("leg_cpf", ConditionOperator.NotNull);
+
+            queryContato.ColumnSet = new ColumnSet("firstname", "lastname", "leg_cpf", "jobtitle", "parentcustomerid", "emailaddress1", "telephone1", "mobilephone", "fax");
+            EntityCollection entityscollection = serviceProxy.RetrieveMultiple(queryContato);
+
+            foreach (var entity in entityscollection.Entities)
+            {
+                try
+                {
+
+                    var contact = new Entity("contact");
+                    Guid Registro = new Guid();
+
+                    if (entity.Attributes.Contains("contactid"))
+                        contact.Attributes.Add("contactid", entity.Id);
+
+                    if (entity.Attributes.Contains("firstname"))
+                        contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
+
+                   
+                    if (entity.Attributes.Contains("lastname"))
+                        contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
+
+                    if (entity.Attributes.Contains("leg_cpf"))
+                        contact.Attributes.Add("leg_cpf", entity.GetAttributeValue<string>("leg_cpf"));
+
+                    if (entity.Attributes.Contains("jobtitle"))
+                        contact.Attributes.Add("jobtitle", entity.GetAttributeValue<string>("jobtitle"));
+
+                    if (entity.Attributes.Contains("parentcustomerid"))
+                        contact.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
+
+                    if (entity.Attributes.Contains("emailaddress1"))
+                        contact.Attributes.Add("emailaddress1", entity.GetAttributeValue<string>("emailaddress1"));
+
+                    if (entity.Attributes.Contains("telephone1"))
+                        contact.Attributes.Add("telephone1", entity.GetAttributeValue<string>("telephone1"));
+
+                    if (entity.Attributes.Contains("mobilephone"))
+                        contact.Attributes.Add("mobilephone", entity.GetAttributeValue<string>("mobilephone"));
+
+                    if (entity.Attributes.Contains("fax"))
+                        contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
+
+                   
+
+                    Registro = serviceproxyCliente.Create(contact);
+
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("{0} Exception.", e);
+                }
+            }
+
+            
+
             //Update Account
             foreach (var entity in collectionEntity.Entities)
             {
@@ -200,7 +203,7 @@ namespace RoboCargadeDados
                     var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("parentaccountid"));
                     if (entity.Attributes.Contains("parentaccountid"))
                         Registro.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
-                    serviceProxy.Update(Registro);
+                    serviceproxyCliente.Update(Registro);
 
                 }
                 catch (Exception e)
@@ -218,7 +221,7 @@ namespace RoboCargadeDados
                     var Registro = serviceProxy.Retrieve("contact", entity.Id, new ColumnSet("parentcustomerid"));
                     if (entity.Attributes.Contains("parentcustomerid"))
                         Registro.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
-                    serviceProxy.Update(Registro);
+                    serviceproxyCliente.Update(Registro);
 
                 }
                 catch (Exception e)
@@ -232,12 +235,12 @@ namespace RoboCargadeDados
         }
 
 
-        static EntityCollection RetornarMultiploClienteConcorrentes(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCiente)
+        static EntityCollection RetornarMultiploClienteConcorrentes(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
             //Query Concorrentes
             QueryExpression queryConcorrentes = new QueryExpression("competitor");
             queryConcorrentes.Criteria.AddCondition("name", ConditionOperator.NotNull);
-            queryConcorrentes.ColumnSet = new ColumnSet("name", "websiteurl", "transactioncurrencyid", "address1_line1", "address1_line2 ", "address1_line3", "address1_city", "address1_stateorprovince", "address1_postalcode", "address1_country");
+            queryConcorrentes.ColumnSet = new ColumnSet("name", "websiteurl", "transactioncurrencyid", "address1_line1", "address1_city", "address1_stateorprovince", "address1_postalcode", "address1_country");
             EntityCollection collectionEntities = serviceProxy.RetrieveMultiple(queryConcorrentes);
 
             foreach (var entities in collectionEntities.Entities)
@@ -254,16 +257,10 @@ namespace RoboCargadeDados
                         concorrentes.Attributes.Add("websiteurl", entities.GetAttributeValue<string>("websiteurl"));
 
                     if (entities.Attributes.Contains("transactioncurrencyid"))
-                        concorrentes.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<string>("transactioncurrencyid"));
+                        concorrentes.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<EntityReference>("transactioncurrencyid"));
 
                     if (entities.Attributes.Contains("address1_line1"))
                         concorrentes.Attributes.Add("address1_line1", entities.GetAttributeValue<string>("address1_line1"));
-
-                    if (entities.Attributes.Contains("address1_line2"))
-                        concorrentes.Attributes.Add("address1_line2", entities.GetAttributeValue<string>("address1_line2"));
-
-                    if (entities.Attributes.Contains("address1_line3"))
-                        concorrentes.Attributes.Add("address1_line3", entities.GetAttributeValue<string>("address1_line3"));
 
                     if (entities.Attributes.Contains("address1_city"))
                         concorrentes.Attributes.Add("address1_city", entities.GetAttributeValue<string>("address1_city"));
@@ -277,7 +274,7 @@ namespace RoboCargadeDados
                     if (entities.Attributes.Contains("address1_country"))
                         concorrentes.Attributes.Add("address1_country", entities.GetAttributeValue<string>("address1_country"));
 
-                    Registro = serviceProxy.Create(concorrentes);
+                    Registro = serviceproxyCliente.Create(concorrentes);
 
                 }
                 catch (Exception e)
@@ -291,12 +288,12 @@ namespace RoboCargadeDados
         }
 
 
-        private static EntityCollection RetornarMultiploClienteFaturaItens(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCiente)
+        private static EntityCollection RetornarMultiploClienteFaturaItens(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
             //Query Fatura
             QueryExpression queryFatura = new QueryExpression("invoice");
             queryFatura.Criteria.AddCondition("invoicenumber", ConditionOperator.NotNull);
-            queryFatura.Criteria.AddCondition("opportunityid", ConditionOperator.NotNull);
+            //queryFatura.Criteria.AddCondition("opportunityid", ConditionOperator.NotNull);
             queryFatura.Criteria.AddCondition("pricelevelid", ConditionOperator.NotNull);
             queryFatura.ColumnSet = new ColumnSet("invoicenumber", "name", "transactioncurrencyid", "pricelevelid", "ispricelocked", "opportunityid", "salesorderid", "customerid");
             EntityCollection collectionEntities = serviceProxy.RetrieveMultiple(queryFatura);
@@ -315,13 +312,13 @@ namespace RoboCargadeDados
                         fatura.Attributes.Add("name", entities.GetAttributeValue<string>("name"));
 
                     if (entities.Attributes.Contains("transactioncurrencyid"))
-                        fatura.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<string>("transactioncurrencyid"));
+                        fatura.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<EntityReference>("transactioncurrencyid"));
 
                     if (entities.Attributes.Contains("pricelevelid"))
-                        fatura.Attributes.Add("pricelevelid", entities.GetAttributeValue<string>("pricelevelid"));
+                        fatura.Attributes.Add("pricelevelid", entities.GetAttributeValue<EntityReference>("pricelevelid"));
 
                     if (entities.Attributes.Contains("ispricelocked"))
-                        fatura.Attributes.Add("ispricelocked", entities.GetAttributeValue<string>("ispricelocked"));
+                        fatura.Attributes.Add("ispricelocked", entities.GetAttributeValue<bool>("ispricelocked"));
 
                     if (entities.Attributes.Contains("opportunityid"))
                         fatura.Attributes.Add("opportunityid", entities.GetAttributeValue<EntityReference>("opportunityid"));
@@ -330,9 +327,9 @@ namespace RoboCargadeDados
                         fatura.Attributes.Add("salesorderid", entities.GetAttributeValue<EntityReference>("salesorderid"));
 
                     if (entities.Attributes.Contains("customerid"))
-                        fatura.Attributes.Add("customerid", entities.GetAttributeValue<string>("customerid"));
+                        fatura.Attributes.Add("customerid", entities.GetAttributeValue<EntityReference>("customerid"));
 
-                    Registro = serviceProxy.Create(fatura);
+                    Registro = serviceproxyCliente.Create(fatura);
                 }
                 catch (Exception e)
                 {
