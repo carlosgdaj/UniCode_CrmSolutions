@@ -12,24 +12,32 @@ namespace PluginUniCode.Opportunity
 
             if (this.Context.MessageName == "Win")
             {
-                Entity OpportunityClose = (Entity)this.Context.InputParameters["OpportunityClose"];
+                try
+                {
+                    Entity OpportunityClose = (Entity)this.Context.InputParameters["OpportunityClose"];
 
-                Entity notification = new Entity("leg_notificacaoaocliente");
+                    Entity notification = new Entity("leg_notificacaoaocliente");
 
-                EntityReference opportunityReference = (EntityReference)OpportunityClose["opportunityid"];
+                    EntityReference opportunityReference = (EntityReference)OpportunityClose["opportunityid"];
 
-                Entity opportunity = this.Service.Retrieve("opportunity", opportunityReference.Id, new ColumnSet("parentcontactid"));
+                    Entity opportunity = this.Service.Retrieve("opportunity", opportunityReference.Id, new ColumnSet("parentcontactid"));
 
-                notification["leg_nomedocliente"] = opportunity["parentcontactid"];
-                notification["leg_mensagemdanotificacao"] = "Obrigado por se matricular na UniCode!\nSeja bem vindo!\nAtt. Equipe UniCode";
-                DateTime date = DateTime.Now;
-                notification["leg_datadanotificacao"] = date;
+                    notification["leg_nomedocliente"] = opportunity["parentcontactid"];
+                    notification["leg_mensagemdanotificacao"] = "Obrigado por se matricular na UniCode!\nSeja bem vindo!\nAtt. Equipe UniCode";
+                    DateTime date = DateTime.Now;
+                    notification["leg_datadanotificacao"] = date;
 
-                this.Service.Create(notification);              
+                    this.Service.Create(notification);
 
-            }          
+                }
+                catch (InvalidCastException error)
+                {
+                    throw new InvalidPluginExecutionException("Está faltando um contato atrelado a oportunidade " + error);
+                }
+
+            }
 
         }
-     
+
     }
 }
