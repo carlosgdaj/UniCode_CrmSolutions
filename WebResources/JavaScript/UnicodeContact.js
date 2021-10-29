@@ -16,7 +16,8 @@ Unicode.Contact = {
             return;
 
         cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
-
+        var verif = /[^0-9]/g;
+        cpf = cpf.replace(verif, "");
         if (cpf.length != 11) {
             formContext.getAttribute(cpfField).setValue("");
             this.DynamicsCustomAlert("Por favor, digite 11 caracteres no CPF", "Erro de Validação de CPF");
