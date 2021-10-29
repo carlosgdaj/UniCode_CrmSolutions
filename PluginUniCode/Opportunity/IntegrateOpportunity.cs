@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PluginUniCode.Opportunity
 {
-   public class IntegrateOpportunity : PluginImplementation
+    public class IntegrateOpportunity : PluginImplementation
     {
         public override void ExecutePlugin(IServiceProvider serviceProvider)
         {
@@ -18,9 +18,13 @@ namespace PluginUniCode.Opportunity
             Entity opportunityLegado = GetContext(this.Context);
             Entity opportunityDestino = new Entity(opportunityLegado.LogicalName);
 
-            if(Context.MessageName == "Create")
+            if (Context.MessageName == "Create")
             {
+                this.TracingService.Trace("Entrou do If Create");
+
                 Importacao(opportunityDestino, opportunityLegado);
+                this.TracingService.Trace("Saiu do metodo");
+
                 service.Create(opportunityDestino);
             }
             else if (this.Context.MessageName == "Update")
@@ -28,11 +32,11 @@ namespace PluginUniCode.Opportunity
                 Entity postOpportunity = this.Context.PostEntityImages["PostImage"];
 
                 QueryExpression queryUpdate = new QueryExpression("opportunity");
-                queryUpdate.ColumnSet.AddColumns("leg_oportunidadeid", "name", "leg_datadeinicio", "leg_unidade", "leg_statusdavacina","leg_modalidade", "leg_tipodocurso", "leg_turno", "parentaccountid", "description");
+                queryUpdate.ColumnSet.AddColumns("leg_oportunidadeid", "name", "leg_datadeinicio", "leg_unidade", "leg_statusdavacina", "leg_modalidade", "leg_tipodocurso", "leg_turno", "parentaccountid", "description");
                 queryUpdate.Criteria.AddCondition("leg_oportunidadeid", ConditionOperator.Equal, postOpportunity["leg_oportunidadeid"]);
                 EntityCollection productsForms = service.RetrieveMultiple(queryUpdate);
 
-                foreach(Entity form in productsForms.Entities)
+                foreach (Entity form in productsForms.Entities)
                 {
                     Importacao(form, postOpportunity);
                     service.Update(form);
@@ -40,7 +44,7 @@ namespace PluginUniCode.Opportunity
             }
             else
             {
-                if(Context.MessageName == "Delete")
+                if (Context.MessageName == "Delete")
                 {
                     Entity preImageOpportunity = this.Context.PreEntityImages["PreImage"];
 
@@ -62,16 +66,37 @@ namespace PluginUniCode.Opportunity
 
         private void Importacao(Entity opportunityDestino, Entity opportunityLegado)
         {
+            this.TracingService.Trace("Entro no metodo");
+
             opportunityDestino["leg_oportunidadeid"] = opportunityLegado["leg_oportunidadeid"];
             opportunityDestino["name"] = opportunityLegado["name"];
             opportunityDestino["leg_datadeinicio"] = opportunityLegado["leg_datadeinicio"];
             opportunityDestino["leg_unidade"] = opportunityLegado["leg_unidade"];
-            opportunityDestino["leg_statusdavacina"] = opportunityLegado["leg_status"];
+            this.TracingService.Trace("Antes do picklist");
+
+            opportunityDestino["leg_statusdavacina"] = opportunityLegado["leg_statusdavacina"];
+            this.TracingService.Trace("Antes do picklist");
+
             opportunityDestino["leg_modalidade"] = opportunityLegado["leg_modalidade"];
+            this.TracingService.Trace("antes do tipo");
+
             opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];
+            this.TracingService.Trace("antes do turno");
             opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];
-            opportunityDestino["parentaccountid"] = opportunityLegado["parentaccountid"];
-            opportunityDestino["description"] = opportunityLegado["description"];
+            //this.TracingService.Trace("antes da conta");
+            //opportunityDestino["parentaccountid"] = opportunityLegado.Contains("parentaccountid") ? opportunityLegado["parentaccountid"] : null;
+            this.TracingService.Trace("antes da descrição");
+            opportunityDestino["description"] = opportunityLegado.Contains("description") ? opportunityLegado["description"] : String.Empty;
+            this.TracingService.Trace("antes da integração");
+
+            if (this.Context.MessageName == "Create")
+            {
+                opportunityDestino["leg_integracao"] = opportunityLegado["leg_integracao"];
+
+            }
+
+
+            this.TracingService.Trace("Fim do metodo");
         }
 
         private Entity GetContext(IPluginExecutionContext context)
@@ -79,7 +104,6 @@ namespace PluginUniCode.Opportunity
             Entity opportunity = new Entity();
             if (context.MessageName == "Create" || context.MessageName == "Update")
             {
-                this.TracingService.Trace("Entrou do If Update");
 
                 opportunity = (Entity)context.InputParameters["Target"];
             }
