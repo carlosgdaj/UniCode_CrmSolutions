@@ -66,7 +66,7 @@ namespace RoboCargadeDados
 
         }
 
-        static EntityCollection RetornarMultiploClienteContaContato(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCiente)
+        static EntityCollection RetornarMultiploClienteContaContato(CrmServiceClient serviceProxy, CrmServiceClient serviceProxyCliente)
         {
             //Query Contact
             QueryExpression queryContato = new QueryExpression("contact");
@@ -90,7 +90,7 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("firstname"))
                         contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
 
-                   
+
                     if (entity.Attributes.Contains("lastname"))
                         contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
 
@@ -115,9 +115,9 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("fax"))
                         contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
 
-                   
 
-                    Registro = serviceProxy.Create(contact);
+
+                    Registro = serviceProxyCliente.Create(contact);
 
                 }
                 catch (Exception e)
@@ -182,7 +182,7 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("defaultpricelevelid"))
                         account.Attributes.Add("defaultpricelevelid", entity.GetAttributeValue<string>("defaultpricelevelid"));
 
-                    Registro = serviceProxy.Create(account);
+                    Registro = serviceProxyCliente.Create(account);
 
                 }
                 catch (Exception e)
@@ -200,7 +200,7 @@ namespace RoboCargadeDados
                     var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("parentaccountid"));
                     if (entity.Attributes.Contains("parentaccountid"))
                         Registro.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
-                    serviceProxy.Update(Registro);
+                    serviceProxyCliente.Update(Registro);
 
                 }
                 catch (Exception e)
@@ -218,7 +218,7 @@ namespace RoboCargadeDados
                     var Registro = serviceProxy.Retrieve("contact", entity.Id, new ColumnSet("parentcustomerid"));
                     if (entity.Attributes.Contains("parentcustomerid"))
                         Registro.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
-                    serviceProxy.Update(Registro);
+                    serviceProxyCliente.Update(Registro);
 
                 }
                 catch (Exception e)
@@ -348,4 +348,3 @@ namespace RoboCargadeDados
     }
 }
 
-    
