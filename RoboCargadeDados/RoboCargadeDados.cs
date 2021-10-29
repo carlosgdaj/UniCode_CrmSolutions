@@ -60,8 +60,8 @@ namespace RoboCargadeDados
         }
         private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
-            //RetornarMultiploClienteContaContato(serviceProxy, serviceproxyCliente);
-            //RetornarMultiploClienteConcorrentes(serviceProxy, serviceproxyCliente);
+            RetornarMultiploClienteContaContato(serviceProxy, serviceproxyCliente);
+            RetornarMultiploClienteConcorrentes(serviceProxy, serviceproxyCliente);
             RetornarMultiploClienteFaturaItens(serviceProxy, serviceproxyCliente);
 
         }
@@ -314,8 +314,8 @@ namespace RoboCargadeDados
                     if (entities.Attributes.Contains("transactioncurrencyid"))
                         fatura.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<EntityReference>("transactioncurrencyid"));
 
-                    if (entities.Attributes.Contains("pricelevelid"))
-                        fatura.Attributes.Add("pricelevelid", entities.GetAttributeValue<EntityReference>("pricelevelid"));
+                    if (entities.Attributes.Contains("pricelevelid"))                    
+                        fatura["pricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));                    
 
                     if (entities.Attributes.Contains("ispricelocked"))
                         fatura.Attributes.Add("ispricelocked", entities.GetAttributeValue<bool>("ispricelocked"));
