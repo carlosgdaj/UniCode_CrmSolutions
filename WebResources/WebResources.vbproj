@@ -96,6 +96,7 @@
     <Content Include="JavaScript\UnicodeAccount.js" />
     <Content Include="JavaScript\UnicodeLOpportunity.js" />
     <Content Include="JavaScript\UnicodeOpportunity.js" />
+    <Content Include="JavaScript\UnicodeOpportunityReadOnly.js" />
     <Content Include="JavaScript\UniCodeProduct.js" />
     <Content Include="Web.config" />
   </ItemGroup>
