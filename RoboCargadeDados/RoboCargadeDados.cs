@@ -21,45 +21,13 @@ namespace RoboCargadeDados
             var serviceproxy = new Conexao().ConexaoRobo();
             var serviceproxyCliente = new ConexaoCliente().ConexaoDestino();
 
-            ProcessorManager();
             EuRoboFinal(serviceproxy, serviceproxyCliente);
             Console.WriteLine("/////////////////////////////////Fim da Importação/////////////////////////////////");
             Console.WriteLine(DateTime.Now);
             Console.ReadKey();
 
         }
-        private static void ProcessorManager()
-        {
-            AdjustTimer();
-            timer.Start();
-        }
-
-        private static void OnTimeOut(object source, ElapsedEventArgs e)
-        {
-
-            try
-            {
-                var serviceproxy = new Conexao().ConexaoRobo();
-                var serviceproxyCliente = new ConexaoCliente().ConexaoDestino();
-                EuRoboFinal(serviceproxy, serviceproxyCliente);
-                Console.WriteLine("/////////////////////////////////Fim da Importação/////////////////////////////////");
-                Console.WriteLine(DateTime.Now);
-                /*Aqui adicione o seu código para executar a procedure*/
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("{0} Exception caught.", ex);
-            }
-        }
-        private static void AdjustTimer()
-        {
-
-            timer.Interval = 30000;
-            timer.AutoReset = true;
-
-            timer.Elapsed += OnTimeOut;
-
-        }
+     
         private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
             RetornarMultiploClienteContaContato(serviceProxy, serviceproxyCliente);
@@ -113,14 +81,11 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("websiteurl"))
                         account.Attributes.Add("websiteurl", entity.GetAttributeValue<string>("websiteurl"));
 
-                    //if (entity.Attributes.Contains("parentaccountid"))
-                    //    account.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
-
                     if (entity.Attributes.Contains("tickersymbol"))
                         account.Attributes.Add("tickersymbol", entity.GetAttributeValue<string>("tickersymbol"));
 
                     if (entity.Attributes.Contains("customertypecode"))
-                        account.Attributes.Add("customertypecode", entity.GetAttributeValue<string>("customertypecode"));
+                        account.Attributes.Add("customertypecode", entity.GetAttributeValue<OptionSetValue>("customertypecode"));
 
                     if (entity.Attributes.Contains("defaultpricelevelid"))
                         account["defaultpricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));
@@ -168,9 +133,6 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("jobtitle"))
                         contact.Attributes.Add("jobtitle", entity.GetAttributeValue<string>("jobtitle"));
 
-                    //if (entity.Attributes.Contains("parentcustomerid"))
-                    //    contact.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
-
                     if (entity.Attributes.Contains("emailaddress1"))
                         contact.Attributes.Add("emailaddress1", entity.GetAttributeValue<string>("emailaddress1"));
 
@@ -202,12 +164,10 @@ namespace RoboCargadeDados
             {
                 try
                 {
-                    var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("parentaccountid"));
+                    var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("primarycontactid"));
 
-                    if (entity.Attributes.Contains("parentaccountid"))
-                        Registro.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
-
-                   
+                    if (entity.Attributes.Contains("primarycontactid"))
+                        Registro.Attributes.Add("primarycontactid", entity.GetAttributeValue<EntityReference>("primarycontactid"));                   
 
                     serviceproxyCliente.Update(Registro);
 
@@ -255,6 +215,9 @@ namespace RoboCargadeDados
                 {
                     var concorrentes = new Entity("competitor");
                     Guid Registro = new Guid();
+
+                    if (entities.Attributes.Contains("contactid"))
+                        concorrentes.Attributes.Add("contactid", entities.Id);
 
                     if (entities.Attributes.Contains("name"))
                         concorrentes.Attributes.Add("name", entities.GetAttributeValue<string>("name"));
@@ -305,7 +268,6 @@ namespace RoboCargadeDados
             //Query Fatura
             QueryExpression queryFatura = new QueryExpression("invoice");
             queryFatura.Criteria.AddCondition("invoicenumber", ConditionOperator.NotNull);
-            //queryFatura.Criteria.AddCondition("opportunityid", ConditionOperator.NotNull);
             queryFatura.Criteria.AddCondition("pricelevelid", ConditionOperator.NotNull);
             queryFatura.ColumnSet = new ColumnSet("invoicenumber", "name", "transactioncurrencyid", "pricelevelid", "ispricelocked", "opportunityid", "salesorderid", "customerid");
             EntityCollection collectionEntities = serviceProxy.RetrieveMultiple(queryFatura);
