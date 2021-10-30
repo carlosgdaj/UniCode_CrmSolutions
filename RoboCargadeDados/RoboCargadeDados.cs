@@ -53,10 +53,12 @@ namespace RoboCargadeDados
         }
         private static void AdjustTimer()
         {
+
             timer.Interval = 30000;
             timer.AutoReset = true;
 
             timer.Elapsed += OnTimeOut;
+
         }
         private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
@@ -172,7 +174,7 @@ namespace RoboCargadeDados
                         account.Attributes.Add("websiteurl", entity.GetAttributeValue<string>("websiteurl"));
 
                     //if (entity.Attributes.Contains("parentaccountid"))
-                        //account.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
+                    //    account.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
 
                     if (entity.Attributes.Contains("tickersymbol"))
                         account.Attributes.Add("tickersymbol", entity.GetAttributeValue<string>("tickersymbol"));
@@ -193,7 +195,65 @@ namespace RoboCargadeDados
                 }
             }
 
-            
+            //Query Contact
+            QueryExpression queryContato = new QueryExpression("contact");
+            queryContato.Criteria.AddCondition("firstname", ConditionOperator.NotNull);
+            queryContato.Criteria.AddCondition("lastname", ConditionOperator.NotNull);
+            queryContato.Criteria.AddCondition("leg_cpf", ConditionOperator.NotNull);
+
+            queryContato.ColumnSet = new ColumnSet("firstname", "lastname", "leg_cpf", "jobtitle", "parentcustomerid", "emailaddress1", "telephone1", "mobilephone", "fax");
+            EntityCollection entityscollection = serviceProxy.RetrieveMultiple(queryContato);
+
+            foreach (var entity in entityscollection.Entities)
+            {
+                try
+                {
+
+                    var contact = new Entity("contact");
+                    Guid Registro = new Guid();
+
+                    if (entity.Attributes.Contains("contactid"))
+                        contact.Attributes.Add("contactid", entity.Id);
+
+                    if (entity.Attributes.Contains("firstname"))
+                        contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
+
+                   
+                    if (entity.Attributes.Contains("lastname"))
+                        contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
+
+                    if (entity.Attributes.Contains("leg_cpf"))
+                        contact.Attributes.Add("leg_cpf", entity.GetAttributeValue<string>("leg_cpf"));
+
+                    if (entity.Attributes.Contains("jobtitle"))
+                        contact.Attributes.Add("jobtitle", entity.GetAttributeValue<string>("jobtitle"));
+
+                    //if (entity.Attributes.Contains("parentcustomerid"))
+                    //    contact.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
+
+                    if (entity.Attributes.Contains("emailaddress1"))
+                        contact.Attributes.Add("emailaddress1", entity.GetAttributeValue<string>("emailaddress1"));
+
+                    if (entity.Attributes.Contains("telephone1"))
+                        contact.Attributes.Add("telephone1", entity.GetAttributeValue<string>("telephone1"));
+
+                    if (entity.Attributes.Contains("mobilephone"))
+                        contact.Attributes.Add("mobilephone", entity.GetAttributeValue<string>("mobilephone"));
+
+                    if (entity.Attributes.Contains("fax"))
+                        contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
+
+                   
+
+                    Registro = serviceproxyCliente.Create(contact);
+
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("{0} Exception.", e);
+                }
+            }
 
             
 
@@ -203,11 +263,11 @@ namespace RoboCargadeDados
                 try
                 {
                     var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("parentaccountid"));
+
                     if (entity.Attributes.Contains("parentaccountid"))
                         Registro.Attributes.Add("parentaccountid", entity.GetAttributeValue<EntityReference>("parentaccountid"));
-                    
-                    if (entity.Attributes.Contains("primarycontactid"))
-                        Registro.Attributes.Add("primarycontactid", entity.GetAttributeValue<EntityReference>("primarycontactid"));
+
+                   
 
                     serviceproxyCliente.Update(Registro);
 
@@ -246,7 +306,7 @@ namespace RoboCargadeDados
                                                                                 //Query Concorrentes
             QueryExpression queryConcorrentes = new QueryExpression("competitor");
             queryConcorrentes.Criteria.AddCondition("name", ConditionOperator.NotNull);
-            queryConcorrentes.ColumnSet = new ColumnSet("name", "websiteurl", "transactioncurrencyid", "address1_line1", "address1_city", "address1_stateorprovince", "address1_postalcode", "address1_country");
+            queryConcorrentes.ColumnSet = new ColumnSet("name", "websiteurl", "transactioncurrencyid", "address1_line1", "address1_city", "address1_stateorprovince", "address1_postalcode", "address1_country", "strengths", "weaknesses");
             EntityCollection collectionEntities = serviceProxy.RetrieveMultiple(queryConcorrentes);
 
             foreach (var entities in collectionEntities.Entities)
@@ -279,6 +339,12 @@ namespace RoboCargadeDados
 
                     if (entities.Attributes.Contains("address1_country"))
                         concorrentes.Attributes.Add("address1_country", entities.GetAttributeValue<string>("address1_country"));
+                   
+                    if (entities.Attributes.Contains("strengths"))
+                        concorrentes.Attributes.Add("strengths", entities.GetAttributeValue<string>("strengths"));
+
+                    if (entities.Attributes.Contains("weaknesses"))
+                        concorrentes.Attributes.Add("weaknesses", entities.GetAttributeValue<string>("weaknesses"));
 
                     Registro = serviceproxyCliente.Create(concorrentes);
 
@@ -320,8 +386,8 @@ namespace RoboCargadeDados
                     if (entities.Attributes.Contains("transactioncurrencyid"))
                         fatura.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<EntityReference>("transactioncurrencyid"));
 
-                    if (entities.Attributes.Contains("pricelevelid"))
-                        fatura["pricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));
+                    if (entities.Attributes.Contains("pricelevelid"))                    
+                        fatura["pricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));                    
 
                     if (entities.Attributes.Contains("ispricelocked"))
                         fatura.Attributes.Add("ispricelocked", entities.GetAttributeValue<bool>("ispricelocked"));
@@ -351,4 +417,3 @@ namespace RoboCargadeDados
     }
 }
 
-    
