@@ -195,65 +195,7 @@ namespace RoboCargadeDados
                 }
             }
 
-            //Query Contact
-            QueryExpression queryContato = new QueryExpression("contact");
-            queryContato.Criteria.AddCondition("firstname", ConditionOperator.NotNull);
-            queryContato.Criteria.AddCondition("lastname", ConditionOperator.NotNull);
-            queryContato.Criteria.AddCondition("leg_cpf", ConditionOperator.NotNull);
-
-            queryContato.ColumnSet = new ColumnSet("firstname", "lastname", "leg_cpf", "jobtitle", "parentcustomerid", "emailaddress1", "telephone1", "mobilephone", "fax");
-            EntityCollection entityscollection = serviceProxy.RetrieveMultiple(queryContato);
-
-            foreach (var entity in entityscollection.Entities)
-            {
-                try
-                {
-
-                    var contact = new Entity("contact");
-                    Guid Registro = new Guid();
-
-                    if (entity.Attributes.Contains("contactid"))
-                        contact.Attributes.Add("contactid", entity.Id);
-
-                    if (entity.Attributes.Contains("firstname"))
-                        contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
-
-                   
-                    if (entity.Attributes.Contains("lastname"))
-                        contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
-
-                    if (entity.Attributes.Contains("leg_cpf"))
-                        contact.Attributes.Add("leg_cpf", entity.GetAttributeValue<string>("leg_cpf"));
-
-                    if (entity.Attributes.Contains("jobtitle"))
-                        contact.Attributes.Add("jobtitle", entity.GetAttributeValue<string>("jobtitle"));
-
-                    //if (entity.Attributes.Contains("parentcustomerid"))
-                    //    contact.Attributes.Add("parentcustomerid", entity.GetAttributeValue<EntityReference>("parentcustomerid"));
-
-                    if (entity.Attributes.Contains("emailaddress1"))
-                        contact.Attributes.Add("emailaddress1", entity.GetAttributeValue<string>("emailaddress1"));
-
-                    if (entity.Attributes.Contains("telephone1"))
-                        contact.Attributes.Add("telephone1", entity.GetAttributeValue<string>("telephone1"));
-
-                    if (entity.Attributes.Contains("mobilephone"))
-                        contact.Attributes.Add("mobilephone", entity.GetAttributeValue<string>("mobilephone"));
-
-                    if (entity.Attributes.Contains("fax"))
-                        contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
-
-                   
-
-                    Registro = serviceproxyCliente.Create(contact);
-
-                }
-                catch (Exception e)
-                {
-
-                    Console.WriteLine("{0} Exception.", e);
-                }
-            }
+            
 
             
 
