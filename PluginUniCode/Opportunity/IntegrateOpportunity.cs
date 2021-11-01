@@ -82,9 +82,7 @@ namespace PluginUniCode.Opportunity
 
             opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];
             this.TracingService.Trace("antes do turno");
-            opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];
-            //this.TracingService.Trace("antes da conta");
-            //opportunityDestino["parentaccountid"] = opportunityLegado.Contains("parentaccountid") ? opportunityLegado["parentaccountid"] : null;
+            opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];            
             this.TracingService.Trace("antes da descrição");
             opportunityDestino["description"] = opportunityLegado.Contains("description") ? opportunityLegado["description"] : String.Empty;
             this.TracingService.Trace("antes da integração");
