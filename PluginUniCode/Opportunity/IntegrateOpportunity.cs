@@ -19,12 +19,8 @@ namespace PluginUniCode.Opportunity
             Entity opportunityDestino = new Entity(opportunityLegado.LogicalName);
 
             if (Context.MessageName == "Create")
-            {
-                this.TracingService.Trace("Entrou do If Create");
-
-                Importacao(opportunityDestino, opportunityLegado);
-                this.TracingService.Trace("Saiu do metodo");
-
+            {               
+                Importacao(opportunityDestino, opportunityLegado);              
                 service.Create(opportunityDestino);
             }
             else if (this.Context.MessageName == "Update")
@@ -48,7 +44,6 @@ namespace PluginUniCode.Opportunity
                 {
                     Entity preImageOpportunity = this.Context.PreEntityImages["PreImage"];
 
-
                     QueryExpression query = new QueryExpression(preImageOpportunity.LogicalName);
                     query.ColumnSet.AddColumn("leg_oportunidadeid");
                     query.Criteria.AddCondition("leg_oportunidadeid", ConditionOperator.Equal, preImageOpportunity["leg_oportunidadeid"]);
@@ -66,35 +61,22 @@ namespace PluginUniCode.Opportunity
 
         private void Importacao(Entity opportunityDestino, Entity opportunityLegado)
         {
-            this.TracingService.Trace("Entro no metodo");
-
+           
             opportunityDestino["leg_oportunidadeid"] = opportunityLegado["leg_oportunidadeid"];
             opportunityDestino["name"] = opportunityLegado["name"];
             opportunityDestino["leg_datadeinicio"] = opportunityLegado["leg_datadeinicio"];
-            opportunityDestino["leg_unidade"] = opportunityLegado["leg_unidade"];
-            this.TracingService.Trace("Antes do picklist");
-
-            opportunityDestino["leg_statusdavacina"] = opportunityLegado["leg_statusdavacina"];
-            this.TracingService.Trace("Antes do picklist");
-
-            opportunityDestino["leg_modalidade"] = opportunityLegado["leg_modalidade"];
-            this.TracingService.Trace("antes do tipo");
-
-            opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];
-            this.TracingService.Trace("antes do turno");
-            opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];            
-            this.TracingService.Trace("antes da descrição");
-            opportunityDestino["description"] = opportunityLegado.Contains("description") ? opportunityLegado["description"] : String.Empty;
-            this.TracingService.Trace("antes da integração");
-
+            opportunityDestino["leg_unidade"] = opportunityLegado["leg_unidade"];            
+            opportunityDestino["leg_statusdavacina"] = opportunityLegado["leg_statusdavacina"];           
+            opportunityDestino["leg_modalidade"] = opportunityLegado["leg_modalidade"];            
+            opportunityDestino["leg_tipodocurso"] = opportunityLegado["leg_tipodocurso"];            
+            opportunityDestino["leg_turno"] = opportunityLegado["leg_turno"];                        
+            opportunityDestino["description"] = opportunityLegado.Contains("description") ? opportunityLegado["description"] : String.Empty;            
             if (this.Context.MessageName == "Create")
             {
                 opportunityDestino["leg_integracao"] = opportunityLegado["leg_integracao"];
 
             }
-
-
-            this.TracingService.Trace("Fim do metodo");
+            
         }
 
         private Entity GetContext(IPluginExecutionContext context)
