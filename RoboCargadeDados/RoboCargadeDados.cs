@@ -27,7 +27,7 @@ namespace RoboCargadeDados
             Console.ReadKey();
 
         }
-     
+
         private static void EuRoboFinal(CrmServiceClient serviceProxy, CrmServiceClient serviceproxyCliente)
         {
             RetornarMultiploClienteContaContato(serviceProxy, serviceproxyCliente);
@@ -123,7 +123,7 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("firstname"))
                         contact.Attributes.Add("firstname", entity.GetAttributeValue<string>("firstname"));
 
-                   
+
                     if (entity.Attributes.Contains("lastname"))
                         contact.Attributes.Add("lastname", entity.GetAttributeValue<string>("lastname"));
 
@@ -145,7 +145,7 @@ namespace RoboCargadeDados
                     if (entity.Attributes.Contains("fax"))
                         contact.Attributes.Add("fax", entity.GetAttributeValue<string>("fax"));
 
-                   
+
 
                     Registro = serviceproxyCliente.Create(contact);
 
@@ -157,7 +157,7 @@ namespace RoboCargadeDados
                 }
             }
 
-            
+
 
             //Update Account
             foreach (var entity in collectionEntity.Entities)
@@ -167,7 +167,7 @@ namespace RoboCargadeDados
                     var Registro = serviceProxy.Retrieve("account", entity.Id, new ColumnSet("primarycontactid"));
 
                     if (entity.Attributes.Contains("primarycontactid"))
-                        Registro.Attributes.Add("primarycontactid", entity.GetAttributeValue<EntityReference>("primarycontactid"));                   
+                        Registro.Attributes.Add("primarycontactid", entity.GetAttributeValue<EntityReference>("primarycontactid"));
 
                     serviceproxyCliente.Update(Registro);
 
@@ -216,8 +216,8 @@ namespace RoboCargadeDados
                     var concorrentes = new Entity("competitor");
                     Guid Registro = new Guid();
 
-                    if (entities.Attributes.Contains("contactid"))
-                        concorrentes.Attributes.Add("contactid", entities.Id);
+                    if (entities.Attributes.Contains("competitorid"))
+                        concorrentes.Attributes.Add("competitorid", entities.Id);
 
                     if (entities.Attributes.Contains("name"))
                         concorrentes.Attributes.Add("name", entities.GetAttributeValue<string>("name"));
@@ -242,7 +242,7 @@ namespace RoboCargadeDados
 
                     if (entities.Attributes.Contains("address1_country"))
                         concorrentes.Attributes.Add("address1_country", entities.GetAttributeValue<string>("address1_country"));
-                   
+
                     if (entities.Attributes.Contains("strengths"))
                         concorrentes.Attributes.Add("strengths", entities.GetAttributeValue<string>("strengths"));
 
@@ -288,8 +288,8 @@ namespace RoboCargadeDados
                     if (entities.Attributes.Contains("transactioncurrencyid"))
                         fatura.Attributes.Add("transactioncurrencyid", entities.GetAttributeValue<EntityReference>("transactioncurrencyid"));
 
-                    if (entities.Attributes.Contains("pricelevelid"))                    
-                        fatura["pricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));                    
+                    if (entities.Attributes.Contains("pricelevelid"))
+                        fatura["pricelevelid"] = new EntityReference("pricelevel", new Guid("557f7fee-c032-ec11-b6e6-002248376f7d"));
 
                     if (entities.Attributes.Contains("ispricelocked"))
                         fatura.Attributes.Add("ispricelocked", entities.GetAttributeValue<bool>("ispricelocked"));
