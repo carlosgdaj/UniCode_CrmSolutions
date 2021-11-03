@@ -111,7 +111,7 @@ Unicode.Account = {
                 }
                 for (let i = 0; i < words.length; i++) {
 
-                    if (phraseModify[i].length <= 2) {
+                    if (phraseModify[i].length <= 3||phraseModify[i].getValue =="Dos") {
                         phraseModify[i] = words[i].toLowerCase();
                     }
                     else {
