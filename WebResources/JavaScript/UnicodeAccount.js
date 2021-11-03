@@ -99,30 +99,29 @@ Unicode.Account = {
             this.DynamicsCustomAlert("Digite um nome válido", "NOME INVÀLIDO");
         }
         else {
-            words = nome.split(" ");
-            function nameFormat(phrase) {
-                phrase = phrase.toLowerCase();
-                return phrase[0].toUpperCase() + phrase.slice(1);
+            palavra = nome.split(" ");
+            function nameFormat(frase) {
+                frase = frase.toLowerCase();
+                return frase[0].toUpperCase() + frase.slice(1);
             }
-            function captal(phrase) {
-                phraseModify = []
-                for (let i = 0; i < words.length; i++) {
-                    phraseModify[i] = nameFormat(words[i]);
+            function captal(frase) {
+                fraseModify = []
+                for (let i = 0; i < palavra.length; i++) {
+                    fraseModify[i] = nameFormat(palavra[i]);
                 }
-                for (let i = 0; i < words.length; i++) {
+                for (let i = 0; i < palavra.length; i++) {
 
-                    if (phraseModify[i].length <= 3) {
-                        phraseModify[i] = words[i].toLowerCase();
+                    if (fraseModify[i].length <= 3 || fraseModify[i].getValue == "Dos") {
+                        fraseModify[i] = palavra[i].toLowerCase();
                     }
-                    
                     else {
                         continue
                     }
                 }
-                return phraseModify.join(" ")
+                return fraseModify.join(" ")
             }
-            phraseModified = captal(words);
-            formContext.getAttribute(Unicode.Account.Attributos.name).setValue(phraseModified);
+            fraseModified = captal(palavra);
+            formContext.getAttribute(Unicode.Account.Attributos.name).setValue(fraseModified);
         }
     },
     
